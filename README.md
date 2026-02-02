@@ -1,4 +1,4 @@
-# 3-Tier Application Deployment (DevOps Practice Project)
+# 3-Tier Application Deployment 
 
 This project demonstrates a **basic 3-tier architecture** deployed using **Docker and Docker Compose**, with a focus on DevOps fundamentals such as containerization, reverse proxying, health checks, and clean project structure.
 
@@ -144,45 +144,3 @@ Sensitive configuration is stored in `.env` and excluded from Git using `.gitign
 ```
 .env
 ```
-
----
-
-## 🚀 DevOps Learnings
-
-Through this project, I practiced:
-
-* Containerizing applications
-* Multi-container orchestration with Docker Compose
-* Reverse proxy configuration using Nginx
-* Health checks for service reliability
-* Optimizing images using slim/alpine bases
-* Structuring a real-world 3-tier deployment
-
----
-
-## 📘 Research Work
-
-In parallel with this project, I researched and documented the **Laravel framework**, focusing on:
-
-* Laravel application structure
-* Containerized deployment concepts
-* Designing reusable DevOps setups for:
-
-  * Multiple Laravel applications
-  * Laravel + Next.js combined architecture
-
-This research will be used for upcoming deployment projects.
-
----
-
-## ✅ Status
-
-✔ Project completed
-✔ Documentation completed
-✔ Health checks implemented
-✔ Optimized Docker images
-✔ Ready for further DevOps extensions
-
----
-
-**Author:** Syed Ali Hussain
