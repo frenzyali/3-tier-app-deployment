@@ -1,18 +1,28 @@
-name: prac-pipeline
+name: prac-pipe
 
 on:
   push:
     branches:
-      - main
+      - main 
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - run: echo 'Testing the app'
+      - name: Cloning Code
+        uses: actions/checkout@v4
+      - name: Starting containers
+        run: docker compose up -d
+      - name: Testing if application is working
+        run: curl http://localhost:3000/health
+      - name: Deleting containers
+        run: docker compose down -v
   build:
     needs: test
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
-      - run: echo 'Building app'
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Build Docker images
+        run: docker-compose build
