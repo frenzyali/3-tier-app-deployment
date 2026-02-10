@@ -1,0 +1,18 @@
+name: prac-pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 'Testing the app'
+  build:
+    need: test
+    if: github.ref == 'refs/head/main'
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 'Building app'
