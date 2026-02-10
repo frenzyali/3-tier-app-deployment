@@ -11,7 +11,7 @@ jobs:
     steps:
       - run: echo 'Testing the app'
   build:
-    need: test
+    needs: test
     if: github.ref == 'refs/head/main'
     runs-on: ubuntu-latest
     steps:
