@@ -66,14 +66,14 @@ jobs:
           USERNAME: ${{ secrets.EC2_USER }}
         run: |
           ssh -o StrictHostKeyChecking=no -i private_key ${USERNAME}@${HOSTNAME} << 'EOF'
-          
+
           # Create .env file on EC2 with secrets from GitHub
           cat > ~/myapp/.env << EOL
-DB_USER=${{ secrets.DB_USER }}
-DB_PASS=${{ secrets.DB_PASS }}
-DB_NAME=${{ secrets.DB_NAME }}
-ROOT_PASS=${{ secrets.ROOT_PASS }}
-EOL
+          DB_USER=${{ secrets.DB_USER }}
+          DB_PASS=${{ secrets.DB_PASS }}
+          DB_NAME=${{ secrets.DB_NAME }}
+          ROOT_PASS=${{ secrets.ROOT_PASS }}
+          EOL
 
           # Create docker-compose.yml that uses images instead of build
           cat > ~/myapp/docker-compose.yml << 'YAML'
