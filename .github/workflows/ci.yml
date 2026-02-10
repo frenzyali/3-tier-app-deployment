@@ -77,40 +77,40 @@ jobs:
 
           # Create docker-compose.yml that uses images instead of build
           cat > ~/myapp/docker-compose.yml << 'YAML'
-version: '3'
-services:
-  app:
-    image: ${{ secrets.DOCKERHUB_USERNAME }}/my-3tier-app:app-latest
-    environment:
-      - DB_HOST=db
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASS}
-      - DB_NAME=${DB_NAME}
-    ports:
-      - "3000:3000"
-    depends_on:
-      - db
+          version: '3'
+          services:
+            app:
+              image: ${{ secrets.DOCKERHUB_USERNAME }}/my-3tier-app:app-latest
+              environment:
+                - DB_HOST=db
+                - DB_USER=${DB_USER}
+                - DB_PASSWORD=${DB_PASS}
+                - DB_NAME=${DB_NAME}
+              ports:
+                - "3000:3000"
+              depends_on:
+                - db
 
-  web:
-    image: ${{ secrets.DOCKERHUB_USERNAME }}/my-3tier-app:web-latest
-    ports:
-      - "8080:80"
-    depends_on:
-      - app
+             web:
+               image: ${{ secrets.DOCKERHUB_USERNAME }}/my-3tier-app:web-latest
+               ports:
+                 - "8080:80"
+               depends_on:
+                 - app
 
-  db:
-    image: ${{ secrets.DOCKERHUB_USERNAME }}/my-3tier-app:db-latest
-    environment:
-      - MYSQL_ROOT_PASSWORD=${ROOT_PASS}
-      - MYSQL_USER=${DB_USER}
-      - MYSQL_PASSWORD=${DB_PASS}
-      - MYSQL_DATABASE=${DB_NAME}
-    volumes:
-      - db-data:/var/lib/mysql
+             db:
+               image: ${{ secrets.DOCKERHUB_USERNAME }}/my-3tier-app:db-latest
+               environment:
+                 - MYSQL_ROOT_PASSWORD=${ROOT_PASS}
+                 - MYSQL_USER=${DB_USER}
+                 - MYSQL_PASSWORD=${DB_PASS}
+                 - MYSQL_DATABASE=${DB_NAME}
+               volumes:
+                 - db-data:/var/lib/mysql
 
-volumes:
-  db-data:
-YAML
+          volumes:
+            db-data:
+          YAML
 
           # Pull latest images
           docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
