@@ -14,7 +14,7 @@ jobs:
       - name: Starting containers
         run: docker compose up -d
       - name: Testing if application is working
-        run: docker-compose exec -T app curl -f http://localhost:3000/health
+        run: docker compose exec -T app curl -f http://localhost:3000/health
       - name: Deleting containers
         run: docker compose down -v
   build:
