@@ -39,6 +39,7 @@ jobs:
 
       - name: Tag Docker images
         run: |
+          docker images
           docker tag app ${{ secrets.DOCKERHUB_USERNAME }}/my-3tier-app:app-latest
           docker tag web ${{ secrets.DOCKERHUB_USERNAME }}/my-3tier-app:web-latest
           docker tag db ${{ secrets.DOCKERHUB_USERNAME }}/my-3tier-app:db-latest
