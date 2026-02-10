@@ -35,7 +35,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build Docker images
-        run: docker-compose build
+        run: docker compose build
 
       - name: Tag Docker images
         run: |
@@ -119,5 +119,5 @@ jobs:
           docker pull ${{ secrets.DOCKERHUB_USERNAME }}/my-3tier-app:db-latest
 
           # Run containers
-          docker-compose -f ~/myapp/docker-compose.yml up -d
+          docker compose -f ~/myapp/docker-compose.yml up -d
           EOF
