@@ -17,7 +17,7 @@ flowchart LR
     DH -.pull.-> EC2
 ```
 
-Only `web` publishes a port. `app` and `db` are reachable only on the Compose network.
+Only `web` publishes a port. `app` and `db` are reachable only on the Compose network. The deploy job still uses `StrictHostKeyChecking=no`; pinning the host key would be the next hardening step.
 
 ## Stack
 
@@ -51,7 +51,7 @@ Open http://localhost:8080. Health check: `curl http://localhost:8080/health` â†
 ## Design decisions
 
 - **Reverse proxy in front of the app.** Nginx is the only published port, so the Flask dev server is never exposed directly.
-- **Config via environment.** DB credentials come from `.env` (gitignored) through Compose substitution; `.env.example` documents the keys.
+- **Config via environment.** DB credentials come from `.env` (gitignored) through Compose substitution; `.env.example` documents the keys. `app.py` requires `DB_PASSWORD` and fails fast if it is missing (no hardcoded fallback).
 - **Healthcheck on the app container.** `/health` plus a Compose `healthcheck` with a start period gives a real "healthy" signal instead of "process started".
 - **Parameterised SQL.** All queries use `%s` placeholders, so user input is never string-formatted into SQL.
 - **Named volume for MySQL.** Data survives `docker compose down`; `init.sql` only seeds on first start.
@@ -61,7 +61,6 @@ Open http://localhost:8080. Health check: `curl http://localhost:8080/health` â†
 ### Known limitations
 
 - Flask's built-in server is used in the container; a production setup would use gunicorn.
-- `app.py` falls back to a default DB password if `DB_PASSWORD` is unset. Compose always sets it, but the fallback should be removed.
 
 ## Required GitHub secrets
 

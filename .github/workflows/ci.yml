@@ -12,11 +12,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Create .env from template
+        run: cp .env.example .env
+
       - name: Start containers
-        run: docker compose up -d
+        run: docker compose up -d --build
 
       - name: Health check
-        run: docker compose exec -T app curl -f http://localhost:3000/health
+        run: |
+          for i in $(seq 1 30); do
+            docker compose exec -T app curl -sf http://localhost:3000/health && exit 0
+            sleep 2
+          done
+          docker compose logs
+          exit 1
 
       - name: Cleanup
         run: docker compose down -v
@@ -64,7 +73,7 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i key.pem $USER@$HOST << 'EOF'
             cd ~/myapp
             git pull origin main
-            docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+            echo '${{ secrets.DOCKERHUB_TOKEN }}' | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/3tier-app:latest
             docker compose up -d
           EOF
