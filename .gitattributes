@@ -1,0 +1,6 @@
+# Keep GitHub's language bar focused on the Python app and infra code,
+# not the small static frontend assets.
+static/** linguist-vendored
+templates/** linguist-vendored
+*.html linguist-detectable=false
+*.css linguist-detectable=false
